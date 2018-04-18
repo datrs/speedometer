@@ -4,7 +4,7 @@ version = "0.2.1-alpha.0"
 license = "MIT OR Apache-2.0"
 repository = "https://github.com/datrs/speedometer"
 documentation = "https://docs.rs/speedometer"
-description = "Measure throughput in bytes per second"
+description = "Measure throughput per second."
 authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
 readme = "README.md"
 

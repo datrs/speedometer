@@ -2,7 +2,7 @@
 [![crates.io version][1]][2] [![build status][3]][4]
 [![downloads][5]][6] [![docs.rs docs][7]][8]
 
-Measure throughput in bytes per second. Adapted from
+Measure throughput per second. Adapted from
 [mafintosh/speedometer](https://github.com/mafintosh/speedometer).
 
 - [Documentation][8]
