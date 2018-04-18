@@ -8,6 +8,11 @@ Measure throughput per second. Adapted from
 - [Documentation][8]
 - [Crates.io][2]
 
+## Why?
+It's often useful to figure out the average over a sliding timeframe. For
+example: "how many bytes did we receive on average over the last 5 seconds?".
+Or anything similar. This module allows you to do so in synchronous code.
+
 ## Usage
 ```rust
 extern crate speedometer;
