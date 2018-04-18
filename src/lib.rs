@@ -21,14 +21,15 @@ pub struct Entry {
 /// Measure speed in bytes/second.
 #[derive(Debug)]
 pub struct Speedometer {
-  window_size: u64,
+  /// Size of the window over which we measure entries.
+  pub window_size: Duration,
   queue: VecDeque<Entry>,
   total_value: usize,
 }
 
 impl Speedometer {
   /// Create a new instance.
-  pub fn new(window_size: u64) -> Self {
+  pub fn new(window_size: Duration) -> Self {
     Self {
       total_value: 0,
       queue: VecDeque::new(),
@@ -36,9 +37,18 @@ impl Speedometer {
     }
   }
 
+  /// Create a new instance with a queue of `capacity`.
+  pub fn with_capacity(window_size: Duration, capacity: usize) -> Self {
+    Self {
+      total_value: 0,
+      queue: VecDeque::with_capacity(capacity),
+      window_size,
+    }
+  }
+
   /// Create a new instance with a new queue. Useful if you have prior knowledge
   /// of how big the allocation for the queue should be.
-  pub fn with_queue(window_size: u64, queue: VecDeque<Entry>) -> Self {
+  pub fn with_queue(window_size: Duration, queue: VecDeque<Entry>) -> Self {
     assert!(queue.is_empty());
     Self {
       total_value: 0,
@@ -58,11 +68,9 @@ impl Speedometer {
 
   /// Measure the speed.
   pub fn measure(&mut self) -> Result<usize, Error> {
-    let expiry = Duration::from_secs(self.window_size);
-
     let mut max = 0;
     for (index, entry) in self.queue.iter_mut().enumerate() {
-      if entry.timestamp.elapsed()? > expiry {
+      if entry.timestamp.elapsed()? > self.window_size {
         self.total_value -= entry.value;
       } else {
         max = index;
@@ -81,7 +89,7 @@ impl Speedometer {
 impl Default for Speedometer {
   fn default() -> Self {
     Self {
-      window_size: 5,
+      window_size: Duration::from_secs(5),
       total_value: 0,
       queue: VecDeque::new(),
     }

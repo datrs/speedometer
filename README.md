@@ -12,8 +12,9 @@ Measure throughput in bytes per second. Adapted from
 ```rust
 extern crate speedometer;
 use speedometer::Speedometer;
+use std::time::Duration;
 
-let window_size = 5; // default is 5 second window size
+let window_size = Duration::from_secs(5); // default is 5 second window size
 let mut meter = Speedometer::new(window_size);
 meter.entry(10);
 

@@ -6,7 +6,7 @@ use std::time::Duration;
 
 #[test]
 fn measures_entries() {
-  let window_size = 1;
+  let window_size = Duration::from_secs(1);
   let mut meter = Speedometer::new(window_size);
   meter.entry(10);
   meter.entry(10);
@@ -15,6 +15,6 @@ fn measures_entries() {
     meter.measure().unwrap() > 0,
     "bytes per second should be non-zero"
   );
-  sleep(Duration::from_secs(window_size));
+  sleep(window_size);
   assert_eq!(meter.measure().unwrap(), 0);
 }
