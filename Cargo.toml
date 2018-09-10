@@ -10,6 +10,3 @@ readme = "README.md"
 
 [dependencies]
 failure = "0.1.1"
-
-[dev-dependencies]
-clippy = "0.0"
