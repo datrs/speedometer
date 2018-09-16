@@ -9,4 +9,4 @@ authors = ["Yoshua Wuyts <yoshuawuyts@gmail.com>"]
 readme = "README.md"
 
 [dependencies]
-failure = "0.1.1"
+failure = "0.1.2"
