@@ -1,8 +1,22 @@
-#![cfg_attr(feature = "nightly", deny(missing_docs))]
-#![cfg_attr(feature = "nightly", feature(external_doc))]
-#![cfg_attr(feature = "nightly", doc(include = "../README.md"))]
+#![forbid(unsafe_code, bad_style, future_incompatible)]
+#![forbid(rust_2018_idioms, rust_2018_compatibility)]
+#![forbid(missing_debug_implementations)]
+#![forbid(missing_docs)]
 #![cfg_attr(test, deny(warnings))]
 
+//! ## Examples
+//! ```rust
+//! extern crate speedometer;
+//! use speedometer::Speedometer;
+//! use std::time::Duration;
+//!
+//! let window_size = Duration::from_secs(5); // default is 5 second window size
+//! let mut meter = Speedometer::new(window_size);
+//! meter.entry(10);
+//!
+//! println!("{:?} bytes/second!", meter.measure().unwrap());
+//! ```
+//!
 extern crate failure;
 
 use failure::Error;
