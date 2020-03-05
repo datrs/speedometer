@@ -15,7 +15,6 @@ Or anything similar. This module allows you to do so in synchronous code.
 
 ## Usage
 ```rust
-extern crate speedometer;
 use speedometer::Speedometer;
 use std::time::Duration;
 
@@ -23,10 +22,11 @@ let window_size = Duration::from_secs(5); // default is 5 second window size
 let mut meter = Speedometer::new(window_size);
 meter.entry(10);
 
-println!("{:?} bytes/second!", meter.measure().unwrap());
+println!("{:?} bytes/second!", meter.measure());
 ```
 
 ## Installation
+With [cargo-edit](https://github.com/killercup/cargo-edit) do:
 ```sh
 $ cargo add speedometer
 ```
