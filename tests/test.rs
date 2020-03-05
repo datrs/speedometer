@@ -18,3 +18,10 @@ fn measures_entries() {
   sleep(window_size);
   assert_eq!(meter.measure(), 0);
 }
+
+#[test]
+fn no_entries() {
+  let window_size = Duration::from_secs(1);
+  let mut meter = Speedometer::new(window_size);
+  assert_eq!(meter.measure(), 0, "should not crash on empty queue");
+}

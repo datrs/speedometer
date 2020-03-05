@@ -105,7 +105,11 @@ impl Speedometer {
       self.queue.pop_front();
     }
 
-    self.total_value / self.queue.len()
+    if self.queue.is_empty() {
+      0
+    } else {
+      self.total_value / self.queue.len()
+    }
   }
 }
 
