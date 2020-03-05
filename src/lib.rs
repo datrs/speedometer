@@ -30,9 +30,9 @@
 //! println!("{:?} bytes/second!", meter.measure());
 //! ```
 //!
+use instant::Instant;
 use std::collections::vec_deque::VecDeque;
 use std::time::Duration;
-use instant::Instant;
 
 /// Entries into the queue.
 #[derive(Debug)]

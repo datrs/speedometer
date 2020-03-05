@@ -11,10 +11,7 @@ fn measures_entries() {
   meter.entry(10);
   meter.entry(10);
   meter.entry(10);
-  assert!(
-    meter.measure() > 0,
-    "bytes per second should be non-zero"
-  );
+  assert!(meter.measure() > 0, "bytes per second should be non-zero");
   sleep(window_size);
   assert_eq!(meter.measure(), 0);
 }
