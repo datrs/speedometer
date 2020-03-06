@@ -4,6 +4,19 @@
 #![forbid(missing_docs)]
 #![cfg_attr(test, deny(warnings))]
 
+//! Measure throughput per second. Adapted from
+//! [mafintosh/speedometer](https://github.com/mafintosh/speedometer).
+//!
+//! ## Why?
+//! It's often useful to figure out the average over a sliding timeframe. For
+//! example: "how many bytes did we receive on average over the last 5
+//! seconds?". Or anything similar. This module allows you to do so in
+//! synchronous code.
+//!
+//! ## WebAssembly
+//! When targeting WebAssembly, enable either the `stdweb` feature or the
+//! `wasm-bindgen` feature, depending on what you use.
+//!
 //! ## Examples
 //! ```rust
 //! extern crate speedometer;
@@ -14,19 +27,17 @@
 //! let mut meter = Speedometer::new(window_size);
 //! meter.entry(10);
 //!
-//! println!("{:?} bytes/second!", meter.measure().unwrap());
+//! println!("{:?} bytes/second!", meter.measure());
 //! ```
 //!
-extern crate failure;
-
-use failure::Error;
+use instant::Instant;
 use std::collections::vec_deque::VecDeque;
-use std::time::{Duration, SystemTime};
+use std::time::Duration;
 
 /// Entries into the queue.
 #[derive(Debug)]
 pub struct Entry {
-  timestamp: SystemTime,
+  timestamp: Instant,
   value: usize,
 }
 
@@ -73,16 +84,16 @@ impl Speedometer {
   pub fn entry(&mut self, value: usize) {
     self.total_value += value;
     self.queue.push_back(Entry {
-      timestamp: SystemTime::now(),
+      timestamp: Instant::now(),
       value,
     });
   }
 
   /// Measure the speed.
-  pub fn measure(&mut self) -> Result<usize, Error> {
+  pub fn measure(&mut self) -> usize {
     let mut max = 0;
     for (index, entry) in self.queue.iter_mut().enumerate() {
-      if entry.timestamp.elapsed()? > self.window_size {
+      if entry.timestamp.elapsed() > self.window_size {
         self.total_value -= entry.value;
       } else {
         max = index;
@@ -94,7 +105,11 @@ impl Speedometer {
       self.queue.pop_front();
     }
 
-    Ok(self.total_value / self.queue.len())
+    if self.queue.is_empty() {
+      0
+    } else {
+      self.total_value / self.queue.len()
+    }
   }
 }
 

@@ -11,10 +11,14 @@ fn measures_entries() {
   meter.entry(10);
   meter.entry(10);
   meter.entry(10);
-  assert!(
-    meter.measure().unwrap() > 0,
-    "bytes per second should be non-zero"
-  );
+  assert!(meter.measure() > 0, "bytes per second should be non-zero");
   sleep(window_size);
-  assert_eq!(meter.measure().unwrap(), 0);
+  assert_eq!(meter.measure(), 0);
+}
+
+#[test]
+fn no_entries() {
+  let window_size = Duration::from_secs(1);
+  let mut meter = Speedometer::new(window_size);
+  assert_eq!(meter.measure(), 0, "should not crash on empty queue");
 }
